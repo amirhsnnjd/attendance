@@ -1,16 +1,17 @@
+import 'package:attendance/Screens/Login.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
-bool light = true;
-
+bool light = false;
+bool check = false;
 ThemeData _darkTheme = ThemeData(
-  brightness: Brightness.dark,
-  primaryColor: Color.fromARGB(255, 250, 250, 250),
-  primarySwatch: Colors.amber,
-  focusColor: Colors.amber,
-);
+    brightness: Brightness.dark,
+    primaryColor: Color.fromARGB(255, 250, 250, 250),
+    primarySwatch: Colors.amber,
+    focusColor: Colors.amber,
+    accentColor: Colors.amber);
 
 ThemeData _lightTheme = ThemeData(
   brightness: Brightness.light,
@@ -52,11 +53,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Flutter Demo',
-      theme: light ? _lightTheme : _darkTheme,
-      home: const MyHomePage(title: 'Flutter Demo Home Page'),
-    );
+    return LoginPage();
   }
 }
 
@@ -74,7 +71,6 @@ class _MyHomePageState extends State<MyHomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.white,
       appBar: AppBar(
         title: Text(j.year.toString() +
             "/" +
