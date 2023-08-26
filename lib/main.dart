@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:shamsi_date/shamsi_date.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 bool light = true;
 
@@ -32,7 +33,18 @@ Future<void> main() async {
         'message', 'Hey ! First message from Flutter. Parse is now connected');
   await firstObject.save();
   print('done');
-  runApp(const MyApp());
+
+  runApp(MaterialApp(
+      builder: (context, widget) => ResponsiveWrapper.builder(
+              ClampingScrollWrapper.builder(context, widget!),
+              breakpoints: [
+                ResponsiveBreakpoint.autoScale(350, name: MOBILE),
+                ResponsiveBreakpoint.autoScale(640, name: TABLET),
+                ResponsiveBreakpoint.autoScale(800, name: DESKTOP),
+                ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+              ]),
+      debugShowCheckedModeBanner: false,
+      home: MyApp()));
 }
 
 class MyApp extends StatelessWidget {
