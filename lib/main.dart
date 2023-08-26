@@ -1,5 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
+import 'package:shamsi_date/shamsi_date.dart';
+
+bool light = true;
+
+ThemeData _darkTheme = ThemeData(
+  brightness: Brightness.dark,
+  primaryColor: Color.fromARGB(255, 250, 250, 250),
+  primarySwatch: Colors.amber,
+  focusColor: Colors.amber,
+);
+
+ThemeData _lightTheme = ThemeData(
+  brightness: Brightness.light,
+  primaryColor: Color.fromARGB(255, 83, 84, 85),
+  focusColor: Colors.purple,
+  primarySwatch: Colors.purple,
+  accentColor: Colors.purple,
+);
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -9,7 +27,7 @@ Future<void> main() async {
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
-  var firstObject = ParseObject('Amir')
+  var firstObject = ParseObject('FirstClass')
     ..set(
         'message', 'Hey ! First message from Flutter. Parse is now connected');
   await firstObject.save();
@@ -24,9 +42,7 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Flutter Demo',
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-      ),
+      theme: light ? _lightTheme : _darkTheme,
       home: const MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
@@ -42,12 +58,21 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
+  Jalali j = Jalali.fromDateTime(DateTime.now());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Colors.white,
       appBar: AppBar(
-        title: Text(widget.title),
+        title: Text(j.year.toString() +
+            "/" +
+            j.month.toString() +
+            "/" +
+            j.day.toString() +
+            "        " +
+            (j.hour - 1).toString() +
+            ":" +
+            j.minute.toString()),
       ),
     );
   }
