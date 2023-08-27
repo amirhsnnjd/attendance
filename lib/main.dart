@@ -1,10 +1,13 @@
+import 'package:attendance/Provider/light.dart';
 import 'package:attendance/Screens/Login.dart';
+import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/material.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:provider/provider.dart';
+import 'Screens/Signup.dart';
 
-bool light = false;
 bool check = false;
 ThemeData _darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -35,17 +38,24 @@ Future<void> main() async {
   await firstObject.save();
   print('done');
 
-  runApp(MaterialApp(
-      builder: (context, widget) => ResponsiveWrapper.builder(
-              ClampingScrollWrapper.builder(context, widget!),
-              breakpoints: [
-                ResponsiveBreakpoint.autoScale(350, name: MOBILE),
-                ResponsiveBreakpoint.autoScale(640, name: TABLET),
-                ResponsiveBreakpoint.autoScale(800, name: DESKTOP),
-                ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
-              ]),
-      debugShowCheckedModeBanner: false,
-      home: MyApp()));
+  runApp(MultiProvider(
+    providers: [
+      ChangeNotifierProvider<LightChanger>(
+        create: (context) => LightChanger(),
+      ),
+    ],
+    child: MaterialApp(
+        builder: (context, widget) => ResponsiveWrapper.builder(
+                ClampingScrollWrapper.builder(context, widget!),
+                breakpoints: [
+                  ResponsiveBreakpoint.autoScale(350, name: MOBILE),
+                  ResponsiveBreakpoint.autoScale(640, name: TABLET),
+                  ResponsiveBreakpoint.autoScale(800, name: DESKTOP),
+                  ResponsiveBreakpoint.autoScale(1700, name: 'XL'),
+                ]),
+        debugShowCheckedModeBanner: false,
+        home: MyApp()),
+  ));
 }
 
 class MyApp extends StatelessWidget {
@@ -53,7 +63,8 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return LoginPage();
+    bool light = Provider.of<LightChanger>(context).light;
+    return Signup();
   }
 }
 

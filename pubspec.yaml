@@ -38,6 +38,8 @@ dependencies:
   cupertino_icons: ^1.0.2
   shamsi_date: ^1.0.1
   responsive_framework: ^0.2.0
+  collapsible_sidebar: ^2.0.5+1
+  provider: ^6.0.3
   
 
 dev_dependencies:
