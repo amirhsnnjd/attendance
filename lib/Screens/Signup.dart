@@ -353,9 +353,11 @@ class _SignupState extends State<Signup> {
                       child: ElevatedButton(
                         onPressed: () async {
                           if (_formkey.currentState!.validate()) {
-                            var firstObject = ParseObject('MyApp')
-                              ..set("name", name);
-                            firstObject..set("email", email);
+                            var firstObject = ParseObject('Teacher')
+                              ..set("name", name)
+                              ..set("email", email)
+                              ..set("password", pass1)
+                              ..set("phone", phone);
                             await firstObject.save();
                           }
                         },

@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
 import 'package:provider/provider.dart';
+import 'package:responsive_framework/responsive_framework.dart';
 
 import '../Provider/light.dart';
 import 'Setting.dart';
@@ -55,117 +56,144 @@ class _LoginPageState extends State<LoginPage> {
                     child: Form(
                       child: Column(
                         children: [
-                          Input(((value) {
-                            if (value!.isEmpty ||
-                                value == null ||
-                                !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
-                                    .hasMatch(value))
-                              return ('لطفا ایمیل را درست وارد کنید');
-                            else {
-                              em = value;
-                              return null;
-                            }
-                          }),
-                              _width * 0.95,
-                              1,
-                              "abcd@abcd.com",
-                              "آدرس ایمیل",
-                              Icon(Icons.email),
-                              light,
-                              _lightTheme,
-                              _darkTheme),
-                          Container(
-                            width: _width * 0.95,
-                            child: Column(
+                          ResponsiveRowColumn(
+                              rowPadding: EdgeInsets.fromLTRB(30, 15, 30, 30),
+                              rowMainAxisAlignment: MainAxisAlignment.center,
+                              layout: ResponsiveWrapper.of(context)
+                                      .isSmallerThan(TABLET)
+                                  ? ResponsiveRowColumnType.COLUMN
+                                  : ResponsiveRowColumnType.ROW,
                               children: [
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: Align(
-                                      alignment: Alignment.topRight,
-                                      child: Text(
-                                        "رمزعبور",
-                                        style: TextStyle(fontSize: 20),
-                                      )),
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 1,
+                                  child: Input(((value) {
+                                    if (value!.isEmpty ||
+                                        value == null ||
+                                        !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
+                                            .hasMatch(value))
+                                      return ('لطفا ایمیل را درست وارد کنید');
+                                    else {
+                                      em = value;
+                                      return null;
+                                    }
+                                  }),
+                                      _width * 0.95,
+                                      1,
+                                      "abcd@abcd.com",
+                                      "آدرس ایمیل",
+                                      Icon(Icons.email),
+                                      light,
+                                      _lightTheme,
+                                      _darkTheme),
                                 ),
-                                Padding(
-                                  padding: const EdgeInsets.all(8.0),
-                                  child: TextFormField(
-                                    obscureText: !_passwordVisible,
-                                    validator: ((value) {
-                                      if (value!.isEmpty || value == null)
-                                        return ('لطفا رمز را وارد کنید');
-                                      else {
-                                        passw1 = value;
-                                        return null;
-                                      }
-                                    }),
-                                    style: TextStyle(
-                                      height: 1,
-                                    ),
-                                    decoration: InputDecoration(
-                                        prefixIcon: Icon(
-                                          Icons.password,
+                                ResponsiveRowColumnItem(
+                                  rowFlex: 1,
+                                  child: Container(
+                                    width: _width * 0.95,
+                                    child: Column(
+                                      children: [
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: Align(
+                                              alignment: Alignment.topRight,
+                                              child: Text(
+                                                "رمزعبور",
+                                                style: TextStyle(fontSize: 20),
+                                              )),
                                         ),
-                                        hintTextDirection: TextDirection.rtl,
-                                        hintText: "رمز عبور ",
-                                        focusedBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: light
-                                                  ? _lightTheme.focusColor
-                                                  : _darkTheme.focusColor,
-                                              width: 2.0),
-                                        ),
-                                        enabledBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: light
-                                                  ? _lightTheme.primaryColor
-                                                  : _darkTheme.primaryColor,
-                                              width: 2.0),
-                                        ),
-                                        errorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: Colors.red, width: 2.0),
-                                        ),
-                                        focusedErrorBorder: OutlineInputBorder(
-                                          borderRadius:
-                                              BorderRadius.circular(10),
-                                          borderSide: BorderSide(
-                                              color: Colors.red, width: 2.0),
-                                        ),
-                                        suffixIcon: IconButton(
-                                          icon: Icon(
-                                            // Based on passwordVisible state choose the icon
-                                            _passwordVisible
-                                                ? Icons.visibility
-                                                : Icons.visibility_off,
-                                            color: light
-                                                ? _lightTheme.focusColor
-                                                : _darkTheme.focusColor,
+                                        Padding(
+                                          padding: const EdgeInsets.all(8.0),
+                                          child: TextFormField(
+                                            obscureText: !_passwordVisible,
+                                            validator: ((value) {
+                                              if (value!.isEmpty ||
+                                                  value == null)
+                                                return ('لطفا رمز را وارد کنید');
+                                              else {
+                                                passw1 = value;
+                                                return null;
+                                              }
+                                            }),
+                                            style: TextStyle(
+                                              height: 1,
+                                            ),
+                                            decoration: InputDecoration(
+                                                prefixIcon: Icon(
+                                                  Icons.password,
+                                                ),
+                                                hintTextDirection:
+                                                    TextDirection.rtl,
+                                                hintText: "رمز عبور ",
+                                                focusedBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: light
+                                                          ? _lightTheme
+                                                              .focusColor
+                                                          : _darkTheme
+                                                              .focusColor,
+                                                      width: 2.0),
+                                                ),
+                                                enabledBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: light
+                                                          ? _lightTheme
+                                                              .primaryColor
+                                                          : _darkTheme
+                                                              .primaryColor,
+                                                      width: 2.0),
+                                                ),
+                                                errorBorder: OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.red,
+                                                      width: 2.0),
+                                                ),
+                                                focusedErrorBorder:
+                                                    OutlineInputBorder(
+                                                  borderRadius:
+                                                      BorderRadius.circular(10),
+                                                  borderSide: BorderSide(
+                                                      color: Colors.red,
+                                                      width: 2.0),
+                                                ),
+                                                suffixIcon: IconButton(
+                                                  icon: Icon(
+                                                    // Based on passwordVisible state choose the icon
+                                                    _passwordVisible
+                                                        ? Icons.visibility
+                                                        : Icons.visibility_off,
+                                                    color: light
+                                                        ? _lightTheme.focusColor
+                                                        : _darkTheme.focusColor,
+                                                  ),
+                                                  onPressed: () {
+                                                    // Update the state i.e. toogle the state of passwordVisible variable
+                                                    setState(() {
+                                                      _passwordVisible =
+                                                          !_passwordVisible;
+                                                    });
+                                                  },
+                                                ),
+                                                errorStyle: TextStyle(
+                                                    color: Colors.red,
+                                                    fontSize: 13),
+                                                hintStyle: TextStyle(
+                                                  fontSize: 15,
+                                                )),
                                           ),
-                                          onPressed: () {
-                                            // Update the state i.e. toogle the state of passwordVisible variable
-                                            setState(() {
-                                              _passwordVisible =
-                                                  !_passwordVisible;
-                                            });
-                                          },
                                         ),
-                                        errorStyle: TextStyle(
-                                            color: Colors.red, fontSize: 13),
-                                        hintStyle: TextStyle(
-                                          fontSize: 15,
-                                        )),
+                                      ],
+                                    ),
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
+                              ]),
                           Padding(
                             padding: const EdgeInsets.only(top: 30),
                             child: TextButton(
