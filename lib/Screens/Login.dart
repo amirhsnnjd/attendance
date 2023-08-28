@@ -23,8 +23,6 @@ ThemeData _lightTheme = ThemeData(
   accentColor: Colors.purple,
 );
 
-final _formkey2 = GlobalKey<FormState>();
-
 class LoginPage extends StatefulWidget {
   @override
   State<LoginPage> createState() => _LoginPageState();
@@ -35,6 +33,7 @@ String passw1 = "";
 String em = "";
 
 class _LoginPageState extends State<LoginPage> {
+  final _formkey2 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
@@ -165,6 +164,31 @@ class _LoginPageState extends State<LoginPage> {
                                 ),
                               ],
                             ),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 30),
+                            child: TextButton(
+                                onPressed: () {
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => Signup())));
+                                },
+                                child: Text(
+                                  " حساب کاربری ندارید ؟",
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                          ),
+                          Padding(
+                            padding: const EdgeInsets.only(top: 10),
+                            child: TextButton(
+                                onPressed: () {},
+                                child: Text(
+                                  " رمز خود را فراموش کرده اید؟",
+                                  style: TextStyle(
+                                      fontSize: 19,
+                                      fontWeight: FontWeight.bold),
+                                )),
                           ),
                           Center(
                             child: Container(

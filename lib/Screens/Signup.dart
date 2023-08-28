@@ -39,9 +39,9 @@ String? email = null;
 String? pass1 = null;
 String? pass2 = null;
 bool _passwordVisible = false;
-final _formkey = GlobalKey<FormState>();
 
 class _SignupState extends State<Signup> {
+  final _formkey = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;

@@ -60,6 +60,6 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
-    return Signup();
+    return LoginPage();
   }
 }
