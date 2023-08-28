@@ -45,6 +45,7 @@ class _LoginPageState extends State<LoginPage> {
           drawer: const NavigationDrawer(),
           appBar: AppBar(
             title: Align(alignment: Alignment.center, child: Text("ورود")),
+            //automaticallyImplyLeading: false,
           ),
           body: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -169,8 +170,9 @@ class _LoginPageState extends State<LoginPage> {
                             padding: const EdgeInsets.only(top: 30),
                             child: TextButton(
                                 onPressed: () {
-                                  Navigator.of(context).push(MaterialPageRoute(
-                                      builder: ((context) => Signup())));
+                                  Navigator.of(context).pushReplacement(
+                                      MaterialPageRoute(
+                                          builder: ((context) => Signup())));
                                 },
                                 child: Text(
                                   " حساب کاربری ندارید ؟",
@@ -250,13 +252,25 @@ class NavigationDrawer extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-            enabled: false,
+            enabled: true,
             leading: Icon(
               Icons.home_outlined,
               color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
             ),
             title: const Text('صفحه اصلی', style: TextStyle(fontSize: 18)),
             onTap: (() {})),
+        ListTile(
+            enabled: false,
+            leading: Icon(
+              Icons.vpn_key_rounded,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('  ورود به حساب کاربری',
+                style: TextStyle(fontSize: 18)),
+            onTap: (() {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => LoginPage())));
+            })),
         ListTile(
             leading: Icon(
               Icons.group_add_outlined,
@@ -265,8 +279,8 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text('  ایجاد حساب کاربری',
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => Signup())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Signup())));
             })),
         ListTile(
             leading: Icon(
@@ -275,8 +289,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => Setting())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Setting())));
             }))
       ],
     );

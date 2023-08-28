@@ -4,6 +4,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 import 'package:responsive_framework/responsive_row_column.dart';
@@ -42,6 +43,7 @@ bool _passwordVisible = false;
 
 class _SignupState extends State<Signup> {
   final _formkey = GlobalKey<FormState>();
+
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
@@ -53,6 +55,8 @@ class _SignupState extends State<Signup> {
         drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: Align(alignment: Alignment.center, child: Text("ثبت نام")),
+          centerTitle: true,
+          //automaticallyImplyLeading: false,
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -323,8 +327,9 @@ class _SignupState extends State<Signup> {
                         padding: const EdgeInsets.only(top: 30),
                         child: TextButton(
                             onPressed: () {
-                              Navigator.of(context).push(MaterialPageRoute(
-                                  builder: ((context) => LoginPage())));
+                              Navigator.of(context).pushReplacement(
+                                  MaterialPageRoute(
+                                      builder: ((context) => LoginPage())));
                             },
                             child: Text(
                               "از قبل حساب کاربری دارید ؟",
@@ -346,9 +351,13 @@ class _SignupState extends State<Signup> {
                       height: 50,
                       width: _width * 0.4,
                       child: ElevatedButton(
-                        onPressed: () => {
-                          if (_formkey.currentState!.validate())
-                            {print(name), print(phone)}
+                        onPressed: () async {
+                          if (_formkey.currentState!.validate()) {
+                            var firstObject = ParseObject('MyApp')
+                              ..set("name", name);
+                            firstObject..set("email", email);
+                            await firstObject.save();
+                          }
                         },
                         style: ElevatedButton.styleFrom(
                             primary: light
@@ -393,7 +402,7 @@ class NavigationDrawer extends StatelessWidget {
     return Column(
       children: [
         ListTile(
-            enabled: false,
+            enabled: true,
             leading: Icon(
               Icons.home_outlined,
               color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
@@ -408,8 +417,20 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text('  ورود به حساب کاربری',
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => LoginPage())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => LoginPage())));
+            })),
+        ListTile(
+            enabled: false,
+            leading: Icon(
+              Icons.group_add_outlined,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('  ایجاد حساب کاربری',
+                style: TextStyle(fontSize: 18)),
+            onTap: (() {
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Signup())));
             })),
         ListTile(
             leading: Icon(
@@ -418,8 +439,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => Setting())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Setting())));
             }))
       ],
     );

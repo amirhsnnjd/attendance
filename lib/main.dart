@@ -29,12 +29,8 @@ Future<void> main() async {
   final keyCientKey = 'JKzv7uvgb5yVyqb4nYoC0ClICkrmuG0JmM34a6t2';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  /*await Parse().initialize(keyApplicationId, keyParseServerUrl,
+  await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
-  var firstObject = ParseObject('MyApp')
-    ..set(
-        'message', 'Hey ! First message from Flutter. Parse is now connected');
-  await firstObject.save();*/
 
   runApp(MultiProvider(
     providers: [

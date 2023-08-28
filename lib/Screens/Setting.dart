@@ -39,8 +39,9 @@ class _SettingState extends State<Setting> {
       home: Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: Align(
-              alignment: Alignment.center, child: Text("برنامه حضور و غیاب")),
+          title: Align(alignment: Alignment.center, child: Text("تنظیمات")),
+          centerTitle: true,
+          //automaticallyImplyLeading: false,
         ),
         body: Align(
           alignment: Alignment.topRight,
@@ -122,8 +123,8 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text('  ورود به حساب کاربری',
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => LoginPage())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => LoginPage())));
             })),
         ListTile(
             leading: Icon(
@@ -133,8 +134,8 @@ class NavigationDrawer extends StatelessWidget {
             title: const Text('  ایجاد حساب کاربری',
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => Signup())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Signup())));
             })),
         ListTile(
             enabled: false,
@@ -144,8 +145,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context)
-                  .push(MaterialPageRoute(builder: ((context) => Setting())));
+              Navigator.of(context).pushReplacement(
+                  MaterialPageRoute(builder: ((context) => Setting())));
             }))
       ],
     );
