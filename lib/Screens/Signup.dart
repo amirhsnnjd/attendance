@@ -1,3 +1,4 @@
+import 'package:attendance/Screens/Login.dart';
 import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -11,8 +12,6 @@ import 'package:collapsible_sidebar/collapsible_sidebar.dart';
 import '../Material/Input.dart';
 import '../Provider/light.dart';
 import '../main.dart';
-
-final _formkey = GlobalKey<FormState>();
 
 ThemeData _darkTheme = ThemeData(
     brightness: Brightness.dark,
@@ -30,8 +29,6 @@ ThemeData _lightTheme = ThemeData(
 );
 
 class Signup extends StatefulWidget {
-  const Signup({Key? key}) : super(key: key);
-
   @override
   State<Signup> createState() => _SignupState();
 }
@@ -42,6 +39,7 @@ String? email = null;
 String? pass1 = null;
 String? pass2 = null;
 bool _passwordVisible = false;
+final _formkey = GlobalKey<FormState>();
 
 class _SignupState extends State<Signup> {
   @override
@@ -54,8 +52,7 @@ class _SignupState extends State<Signup> {
       home: Scaffold(
         drawer: const NavigationDrawer(),
         appBar: AppBar(
-          title: Align(
-              alignment: Alignment.center, child: Text("برنامه حضور و غیاب")),
+          title: Align(alignment: Alignment.center, child: Text("ثبت نام")),
         ),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
@@ -131,8 +128,10 @@ class _SignupState extends State<Signup> {
                                   !RegExp(r"^[a-zA-Z0-9.a-zA-Z0-9.!#$%&'*+-/=?^_`{|}~]+@[a-zA-Z0-9]+\.[a-zA-Z]+")
                                       .hasMatch(value))
                                 return ('لطفا ایمیل را درست وارد کنید');
-                              else
+                              else {
+                                email = value;
                                 return null;
+                              }
                             }),
                                 _width * 0.95,
                                 1,
@@ -323,7 +322,10 @@ class _SignupState extends State<Signup> {
                       Padding(
                         padding: const EdgeInsets.only(top: 30),
                         child: TextButton(
-                            onPressed: () {},
+                            onPressed: () {
+                              Navigator.of(context).push(MaterialPageRoute(
+                                  builder: ((context) => LoginPage())));
+                            },
                             child: Text(
                               "از قبل حساب کاربری دارید ؟",
                               style: TextStyle(
@@ -344,8 +346,10 @@ class _SignupState extends State<Signup> {
                       height: 50,
                       width: _width * 0.4,
                       child: ElevatedButton(
-                        onPressed: () =>
-                            {if (_formkey.currentState!.validate()) {}},
+                        onPressed: () => {
+                          if (_formkey.currentState!.validate())
+                            {print(name), print(phone)}
+                        },
                         style: ElevatedButton.styleFrom(
                             primary: light
                                 ? _lightTheme.focusColor
@@ -403,7 +407,10 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('  ورود به حساب کاربری',
                 style: TextStyle(fontSize: 18)),
-            onTap: (() {})),
+            onTap: (() {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => LoginPage())));
+            })),
         ListTile(
             leading: Icon(
               Icons.settings,

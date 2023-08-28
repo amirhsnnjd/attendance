@@ -8,7 +8,6 @@ import 'package:responsive_framework/responsive_framework.dart';
 import 'package:provider/provider.dart';
 import 'Screens/Signup.dart';
 
-bool check = false;
 ThemeData _darkTheme = ThemeData(
     brightness: Brightness.dark,
     primaryColor: Color.fromARGB(255, 250, 250, 250),
@@ -30,13 +29,12 @@ Future<void> main() async {
   final keyCientKey = 'JKzv7uvgb5yVyqb4nYoC0ClICkrmuG0JmM34a6t2';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
 
-  await Parse().initialize(keyApplicationId, keyParseServerUrl,
+  /*await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
-  var firstObject = ParseObject('FirstClass')
+  var firstObject = ParseObject('MyApp')
     ..set(
         'message', 'Hey ! First message from Flutter. Parse is now connected');
-  await firstObject.save();
-  print('done');
+  await firstObject.save();*/
 
   runApp(MultiProvider(
     providers: [
@@ -59,40 +57,9 @@ Future<void> main() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
     return Signup();
-  }
-}
-
-class MyHomePage extends StatefulWidget {
-  const MyHomePage({Key? key, required this.title}) : super(key: key);
-
-  final String title;
-
-  @override
-  State<MyHomePage> createState() => _MyHomePageState();
-}
-
-class _MyHomePageState extends State<MyHomePage> {
-  Jalali j = Jalali.fromDateTime(DateTime.now());
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text(j.year.toString() +
-            "/" +
-            j.month.toString() +
-            "/" +
-            j.day.toString() +
-            "        " +
-            (j.hour - 1).toString() +
-            ":" +
-            j.minute.toString()),
-      ),
-    );
   }
 }

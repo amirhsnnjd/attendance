@@ -1,4 +1,6 @@
 import 'package:attendance/Provider/light.dart';
+import 'package:attendance/Screens/Login.dart';
+import 'package:attendance/Screens/Signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -22,8 +24,6 @@ ThemeData _lightTheme = ThemeData(
 );
 
 class Setting extends StatefulWidget {
-  const Setting({Key? key}) : super(key: key);
-
   @override
   State<Setting> createState() => _SettingState();
 }
@@ -37,6 +37,7 @@ class _SettingState extends State<Setting> {
       theme: light ? _lightTheme : _darkTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        drawer: const NavigationDrawer(),
         appBar: AppBar(
           title: Align(
               alignment: Alignment.center, child: Text("برنامه حضور و غیاب")),
@@ -81,4 +82,73 @@ class _SettingState extends State<Setting> {
       ),
     );
   }
+}
+
+class NavigationDrawer extends StatelessWidget {
+  const NavigationDrawer({Key? key}) : super(key: key);
+
+  @override
+  Widget build(BuildContext context) => Drawer(
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.stretch,
+            children: <Widget>[
+              buildHeader(context),
+              buildMenuItems(context),
+            ],
+          ),
+        ),
+      );
+  Widget buildHeader(BuildContext context) => Container(
+        padding: EdgeInsets.only(top: MediaQuery.of(context).padding.top),
+      );
+  Widget buildMenuItems(BuildContext context) {
+    bool light = Provider.of<LightChanger>(context).light;
+    return Column(
+      children: [
+        ListTile(
+            enabled: true,
+            leading: Icon(
+              Icons.home_outlined,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('صفحه اصلی', style: TextStyle(fontSize: 18)),
+            onTap: (() {})),
+        ListTile(
+            leading: Icon(
+              Icons.group_add_outlined,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('  ورود به حساب کاربری',
+                style: TextStyle(fontSize: 18)),
+            onTap: (() {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => LoginPage())));
+            })),
+        ListTile(
+            leading: Icon(
+              Icons.group_add_outlined,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('  ایجاد حساب کاربری',
+                style: TextStyle(fontSize: 18)),
+            onTap: (() {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => Signup())));
+            })),
+        ListTile(
+            enabled: false,
+            leading: Icon(
+              Icons.settings,
+              color: light ? _lightTheme.focusColor : _darkTheme.focusColor,
+            ),
+            title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
+            onTap: (() {
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => Setting())));
+            }))
+      ],
+    );
+  } /*
+*/
 }
