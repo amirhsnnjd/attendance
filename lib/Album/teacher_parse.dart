@@ -59,12 +59,16 @@ Future<TeacherList> FetchAlbum() async {
   final keyApplicationId = 'evvicE1Cf12bFHsJNfp8gOKN9xHuhQZgr6afp9Z2';
   final keyCientKey = 'JKzv7uvgb5yVyqb4nYoC0ClICkrmuG0JmM34a6t2';
   final keyParseServerUrl = 'https://parseapi.back4app.com';
+  String ss = "";
+  String ss2 = "";
+  String ss3 = "";
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
   QueryBuilder<ParseObject> q =
       QueryBuilder<ParseObject>(ParseObject("Teacher"));
   final ParseResponse a = await q.query();
   if (a.success && a.result != null) {
+    ss = a.results.toString();
     TeacherList task = TeacherList.FromJson(jsonDecode(a.results.toString()));
     return task;
   } else {

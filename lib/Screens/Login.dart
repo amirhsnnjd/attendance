@@ -1,5 +1,8 @@
 import 'dart:convert';
 
+import 'package:attendance/Album/Album.dart';
+import 'package:attendance/Album/class_parse.dart';
+import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Material/Input.dart';
 import 'package:attendance/Screens/Home.dart';
 import 'package:attendance/Screens/Signup.dart';
@@ -31,11 +34,14 @@ ThemeData _lightTheme = ThemeData(
 );
 
 class LoginPage extends StatefulWidget {
+  bool err;
+  LoginPage(this.err);
   @override
   State<LoginPage> createState() => _LoginPageState();
 }
 
 bool _passwordVisible = false;
+
 String passw1 = "";
 String em = "";
 
@@ -206,7 +212,8 @@ class _LoginPageState extends State<LoginPage> {
                                 onPressed: () {
                                   Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
-                                          builder: ((context) => Signup())));
+                                          builder: ((context) =>
+                                              Signup(false))));
                                 },
                                 child: Text(
                                   " حساب کاربری ندارید ؟",
@@ -215,17 +222,21 @@ class _LoginPageState extends State<LoginPage> {
                                       fontWeight: FontWeight.bold),
                                 )),
                           ),
-                          Padding(
-                            padding: const EdgeInsets.only(top: 10),
-                            child: TextButton(
-                                onPressed: () {},
-                                child: Text(
-                                  " رمز خود را فراموش کرده اید؟",
-                                  style: TextStyle(
-                                      fontSize: 19,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                          ),
+                          Visibility(
+                              visible: widget.err,
+                              child: Padding(
+                                padding: const EdgeInsets.only(top: 15),
+                                child: Center(
+                                    child: Container(
+                                        width: 200,
+                                        child: Text(
+                                          "اطلاعات کاربری درست نیست",
+                                          style: TextStyle(
+                                              color: Colors.red,
+                                              fontWeight: FontWeight.bold,
+                                              fontSize: 18),
+                                        ))),
+                              )),
                           Center(
                             child: Container(
                               width: _width * 0.4,
@@ -238,57 +249,84 @@ class _LoginPageState extends State<LoginPage> {
                                     onPressed: () => {
                                       if (_formkey2.currentState!.validate())
                                         {
-                                          Navigator.of(context).pushReplacement(
-                                              MaterialPageRoute(
-                                                  builder: ((context) =>
-                                                      FutureBuilder<
-                                                          TeacherList>(
-                                                        builder: (context,
-                                                            snapshot) {
-                                                          print("enter");
-                                                          if (snapshot
-                                                              .hasData) {
-                                                            int check = 0;
-                                                            for (int i = 0;
-                                                                i <=
-                                                                    snapshot
-                                                                            .data!
-                                                                            .albums
-                                                                            .length -
-                                                                        1;
-                                                                i++) {
-                                                              if (snapshot
-                                                                      .data!
-                                                                      .albums[i]
-                                                                      .email ==
-                                                                  em) {
-                                                                if (snapshot
-                                                                        .data!
-                                                                        .albums[
-                                                                            i]
-                                                                        .password ==
-                                                                    passw1) {
-                                                                  check = 1;
-                                                                }
-                                                              }
-                                                            }
-                                                            if (check == 0)
-                                                              return LoginPage();
-                                                            else
-                                                              return Home();
-                                                          } else if (snapshot
-                                                              .hasError) {
-                                                            return Text(
-                                                                '${snapshot.error}');
-                                                          }
-                                                          return const SpinKitRotatingCircle(
-                                                            color:
-                                                                Colors.purple,
-                                                            size: 50.0,
-                                                          );
-                                                        },
-                                                        future: FetchAlbum(),
-                                                      ))))
+                                          Navigator.of(context)
+                                              .pushReplacement(
+                                                  MaterialPageRoute(
+                                                      builder:
+                                                          ((context) =>
+                                                              FutureBuilder<
+                                                                  TeacherList>(
+                                                                builder: (context,
+                                                                    snapshot) {
+                                                                  print(
+                                                                      "enter");
+                                                                  if (snapshot
+                                                                      .hasData) {
+                                                                    int check =
+                                                                        0;
+                                                                    for (int i =
+                                                                            0;
+                                                                        i <=
+                                                                            snapshot.data!.albums.length -
+                                                                                1;
+                                                                        i++) {
+                                                                      if (snapshot
+                                                                              .data!
+                                                                              .albums[i]
+                                                                              .email ==
+                                                                          em) {
+                                                                        if (snapshot.data!.albums[i].password ==
+                                                                            passw1) {
+                                                                          check =
+                                                                              1;
+                                                                        }
+                                                                      }
+                                                                    }
+                                                                    if (check ==
+                                                                        0) {
+                                                                      return LoginPage(
+                                                                          true);
+                                                                    } else {
+                                                                      return FutureBuilder<
+                                                                          ClassList>(
+                                                                        future:
+                                                                            FetchAlbum_c(),
+                                                                        builder:
+                                                                            (context,
+                                                                                snapshot1) {
+                                                                          if (snapshot1
+                                                                              .hasData) {
+                                                                            return FutureBuilder<StudntList>(
+                                                                              future: FetchAlbum_s(),
+                                                                              builder: (context, snapshot2) {
+                                                                                if (snapshot2.hasData) {
+                                                                                  return Home(snapshot, snapshot1, snapshot2);
+                                                                                } else
+                                                                                  return const SpinKitRotatingCircle(
+                                                                                    color: Colors.purple,
+                                                                                    size: 50.0,
+                                                                                  );
+                                                                              },
+                                                                            );
+                                                                          } else
+                                                                            return const SpinKitRotatingCircle(
+                                                                              color: Colors.purple,
+                                                                              size: 50.0,
+                                                                            );
+                                                                        },
+                                                                      );
+                                                                    }
+                                                                  } else if (snapshot
+                                                                      .hasError) {}
+                                                                  return const SpinKitRotatingCircle(
+                                                                    color: Colors
+                                                                        .purple,
+                                                                    size: 50.0,
+                                                                  );
+                                                                },
+                                                                future:
+                                                                    FetchAlbum(),
+                                                              ))))
                                         }
                                     },
                                     style: ElevatedButton.styleFrom(
@@ -353,7 +391,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => LoginPage())));
+                  MaterialPageRoute(builder: ((context) => LoginPage(false))));
             })),
         ListTile(
             leading: Icon(
@@ -364,7 +402,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => Signup())));
+                  MaterialPageRoute(builder: ((context) => Signup(false))));
             })),
         ListTile(
             leading: Icon(

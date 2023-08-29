@@ -1,22 +1,30 @@
+import 'dart:io';
+
+import 'package:attendance/Album/class_parse.dart';
+import 'package:attendance/Album/student_parse.dart';
+import 'package:attendance/Album/student_parse.dart';
+import 'package:attendance/Album/student_parse.dart';
+import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Album/teacher_parse.dart';
 
-/*class Album {
-  final Student st;
-  final Teacher tc;
-  final clas cl;
+import 'student_parse.dart';
 
-  const Album({
-    required this.st,
+class total {
+  final StudntList s;
+  final TeacherList tc;
+  final ClassList cl;
+
+  const total({
+    required this.s,
     required this.tc,
     required this.cl,
   });
 
-  factory Album.FromJson(Map<String, dynamic> json) {
-    return Album(
-        st: json['student'],
-        tc: json['teacher'],
-        cl: json['class'],
-        );
+  factory total.FromJson(Map<String, dynamic> json) {
+    return total(
+      s: StudntList.FromJson(json['student']),
+      tc: TeacherList.FromJson(json['teacher']),
+      cl: ClassList.FromJson(json['class']),
+    );
   }
-}*/
-
+}

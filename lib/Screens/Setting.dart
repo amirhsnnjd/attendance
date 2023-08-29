@@ -124,7 +124,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => LoginPage())));
+                  MaterialPageRoute(builder: ((context) => LoginPage(false))));
             })),
         ListTile(
             leading: Icon(
@@ -135,7 +135,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => Signup())));
+                  MaterialPageRoute(builder: ((context) => Signup(false))));
             })),
         ListTile(
             enabled: false,

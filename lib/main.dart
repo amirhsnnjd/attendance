@@ -35,8 +35,7 @@ Future<void> main() async {
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
-  /* QueryBuilder<ParseObject> q =
-      QueryBuilder<ParseObject>(ParseObject("Teacher"));
+  /*QueryBuilder<ParseObject> q = QueryBuilder<ParseObject>(ParseObject("Class"));
   final ParseResponse a = await q.query();
   if (a.success && a.result != null) {
     print(a.results);
@@ -75,7 +74,7 @@ class MyApp extends StatefulWidget {
 class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    return LoginPage();
+    return LoginPage(false);
     /* return FutureBuilder<TeacherList>(
       builder: (context, snapshot) {
         print("enter");

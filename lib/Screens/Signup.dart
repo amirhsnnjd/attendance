@@ -1,3 +1,4 @@
+import 'package:attendance/Album/Album.dart';
 import 'package:attendance/Screens/Login.dart';
 import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/cupertino.dart';
@@ -43,6 +44,8 @@ ThemeData _lightTheme = ThemeData(
 );
 
 class Signup extends StatefulWidget {
+  bool er;
+  Signup(this.er);
   @override
   State<Signup> createState() => _SignupState();
 }
@@ -379,7 +382,8 @@ class _SignupState extends State<Signup> {
                             onPressed: () {
                               Navigator.of(context).pushReplacement(
                                   MaterialPageRoute(
-                                      builder: ((context) => LoginPage())));
+                                      builder: ((context) =>
+                                          LoginPage(false))));
                             },
                             child: Text(
                               "از قبل حساب کاربری دارید ؟",
@@ -387,6 +391,21 @@ class _SignupState extends State<Signup> {
                                   fontSize: 19, fontWeight: FontWeight.bold),
                             )),
                       ),
+                      Visibility(
+                          visible: widget.er,
+                          child: Padding(
+                            padding: const EdgeInsets.only(top: 15),
+                            child: Center(
+                                child: Container(
+                                    width: 150,
+                                    child: Text(
+                                      "ایمیل تکراری است",
+                                      style: TextStyle(
+                                          color: Colors.red,
+                                          fontWeight: FontWeight.bold,
+                                          fontSize: 18),
+                                    ))),
+                          )),
                     ],
                   ),
                   key: _formkey,
@@ -412,10 +431,10 @@ class _SignupState extends State<Signup> {
                                               if (snapshot
                                                       .data!.albums[0].email ==
                                                   email) {
-                                                return Signup();
+                                                return Signup(true);
                                               } else {
                                                 a(name, email, pass1, phone);
-                                                return LoginPage();
+                                                return LoginPage(false);
                                               }
                                             } else if (snapshot.hasError) {
                                               return Text('${snapshot.error}');
@@ -488,7 +507,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => LoginPage())));
+                  MaterialPageRoute(builder: ((context) => LoginPage(false))));
             })),
         ListTile(
             enabled: false,
@@ -500,7 +519,7 @@ class NavigationDrawer extends StatelessWidget {
                 style: TextStyle(fontSize: 18)),
             onTap: (() {
               Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => Signup())));
+                  MaterialPageRoute(builder: ((context) => Signup(false))));
             })),
         ListTile(
             leading: Icon(
