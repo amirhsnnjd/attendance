@@ -1,12 +1,18 @@
+import 'dart:convert';
+
 import 'package:attendance/Material/Input.dart';
+import 'package:attendance/Screens/Home.dart';
 import 'package:attendance/Screens/Signup.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
 
 import '../Provider/light.dart';
+import '../Album/teacher_parse.dart';
 import 'Setting.dart';
 
 ThemeData _darkTheme = ThemeData(
@@ -39,14 +45,14 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
     double _width = MediaQuery.of(context).size.width;
+
     return MaterialApp(
         theme: light ? _lightTheme : _darkTheme,
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          drawer: const NavigationDrawer(),
+          drawer: NavigationDrawer(),
           appBar: AppBar(
             title: Align(alignment: Alignment.center, child: Text("ورود")),
-            //automaticallyImplyLeading: false,
           ),
           body: Padding(
               padding: const EdgeInsets.all(8.0),
@@ -231,7 +237,59 @@ class _LoginPageState extends State<LoginPage> {
                                   child: ElevatedButton(
                                     onPressed: () => {
                                       if (_formkey2.currentState!.validate())
-                                        {print(name), print(phone)}
+                                        {
+                                          Navigator.of(context).pushReplacement(
+                                              MaterialPageRoute(
+                                                  builder: ((context) =>
+                                                      FutureBuilder<
+                                                          TeacherList>(
+                                                        builder: (context,
+                                                            snapshot) {
+                                                          print("enter");
+                                                          if (snapshot
+                                                              .hasData) {
+                                                            int check = 0;
+                                                            for (int i = 0;
+                                                                i <=
+                                                                    snapshot
+                                                                            .data!
+                                                                            .albums
+                                                                            .length -
+                                                                        1;
+                                                                i++) {
+                                                              if (snapshot
+                                                                      .data!
+                                                                      .albums[i]
+                                                                      .email ==
+                                                                  em) {
+                                                                if (snapshot
+                                                                        .data!
+                                                                        .albums[
+                                                                            i]
+                                                                        .password ==
+                                                                    passw1) {
+                                                                  check = 1;
+                                                                }
+                                                              }
+                                                            }
+                                                            if (check == 0)
+                                                              return LoginPage();
+                                                            else
+                                                              return Home();
+                                                          } else if (snapshot
+                                                              .hasError) {
+                                                            return Text(
+                                                                '${snapshot.error}');
+                                                          }
+                                                          return const SpinKitRotatingCircle(
+                                                            color:
+                                                                Colors.purple,
+                                                            size: 50.0,
+                                                          );
+                                                        },
+                                                        future: FetchAlbum(),
+                                                      ))))
+                                        }
                                     },
                                     style: ElevatedButton.styleFrom(
                                         primary: light
@@ -258,8 +316,6 @@ class _LoginPageState extends State<LoginPage> {
 }
 
 class NavigationDrawer extends StatelessWidget {
-  const NavigationDrawer({Key? key}) : super(key: key);
-
   @override
   Widget build(BuildContext context) => Drawer(
         child: SingleChildScrollView(

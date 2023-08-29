@@ -1,7 +1,11 @@
+import 'dart:convert';
+
 import 'package:attendance/Provider/light.dart';
+import 'package:attendance/Album/teacher_parse.dart';
 import 'package:attendance/Screens/Login.dart';
 import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:shamsi_date/shamsi_date.dart';
 import 'package:responsive_framework/responsive_framework.dart';
@@ -31,6 +35,17 @@ Future<void> main() async {
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
+  /* QueryBuilder<ParseObject> q =
+      QueryBuilder<ParseObject>(ParseObject("Teacher"));
+  final ParseResponse a = await q.query();
+  if (a.success && a.result != null) {
+    print(a.results);
+  } else {
+    throw Exception("error");
+  }*/
+
+  /*var aa = ParseObject('Student')..set("name", "hi");
+  await aa.save();*/
 
   runApp(MultiProvider(
     providers: [
@@ -52,10 +67,28 @@ Future<void> main() async {
   ));
 }
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
-    bool light = Provider.of<LightChanger>(context).light;
     return LoginPage();
+    /* return FutureBuilder<TeacherList>(
+      builder: (context, snapshot) {
+        print("enter");
+        if (snapshot.hasData) {
+          
+        } else if (snapshot.hasError) {
+          return Text('${snapshot.error}');
+        }
+        return const CircularProgressIndicator();
+      },
+      future: FetchAlbum(),
+    );*/
+
+    ;
   }
 }
