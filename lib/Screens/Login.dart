@@ -6,6 +6,7 @@ import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Material/Input.dart';
 import 'package:attendance/Screens/Home.dart';
 import 'package:attendance/Screens/Signup.dart';
+import 'package:attendance/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
@@ -13,6 +14,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import 'package:provider/provider.dart';
 import 'package:responsive_framework/responsive_framework.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import '../Provider/light.dart';
 import '../Album/teacher_parse.dart';
@@ -44,6 +46,9 @@ bool _passwordVisible = false;
 
 String passw1 = "";
 String em = "";
+void initial(SharedPreferences? login) async {
+  login = await SharedPreferences.getInstance();
+}
 
 class _LoginPageState extends State<LoginPage> {
   final _formkey2 = GlobalKey<FormState>();
@@ -51,6 +56,9 @@ class _LoginPageState extends State<LoginPage> {
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
     double _width = MediaQuery.of(context).size.width;
+    SharedPreferences? login;
+    initial(login);
+    login?.setInt("key", -1);
 
     return MaterialApp(
         theme: light ? _lightTheme : _darkTheme,
@@ -264,6 +272,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                       .hasData) {
                                                                     int check =
                                                                         0;
+                                                                    int k = -1;
                                                                     for (int i =
                                                                             0;
                                                                         i <=
@@ -279,6 +288,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                             passw1) {
                                                                           check =
                                                                               1;
+                                                                          k = i;
                                                                         }
                                                                       }
                                                                     }
@@ -300,7 +310,9 @@ class _LoginPageState extends State<LoginPage> {
                                                                               future: FetchAlbum_s(),
                                                                               builder: (context, snapshot2) {
                                                                                 if (snapshot2.hasData) {
-                                                                                  return Home(snapshot, snapshot1, snapshot2);
+                                                                                  login?.setInt("key", k);
+                                                                                  print(login?.getInt("key"));
+                                                                                  return Home(k, snapshot, snapshot1, snapshot2);
                                                                                 } else
                                                                                   return const SpinKitRotatingCircle(
                                                                                     color: Colors.purple,
