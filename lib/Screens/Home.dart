@@ -1,6 +1,7 @@
 import 'package:attendance/Album/class_parse.dart';
 import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Album/teacher_parse.dart';
+import 'package:attendance/Material/ClassElement.dart';
 import 'package:attendance/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -55,16 +56,27 @@ class _HomeState extends State<Home> {
       theme: light ? _lightTheme : _darkTheme,
       debugShowCheckedModeBanner: false,
       home: Scaffold(
+        floatingActionButton: FloatingActionButton(
+          onPressed: () {},
+          tooltip: 'Increment',
+          child: const Icon(Icons.add),
+        ),
         drawer: NavigationDrawer(),
         appBar: AppBar(
           title: Align(alignment: Alignment.center, child: Text("صفحه اصلی")),
         ),
-        body: Column(
+        body: ListView(
           children: [
             for (int i = 0; i <= widget.snapshot_c.data!.albums.length - 1; i++)
               if (widget.snapshot_c.data!.albums[i].teacher ==
                   widget.snapshot_t.data!.albums[widget.k].email)
-                Text(widget.snapshot_c.data!.albums[i].name.toString())
+                Padding(
+                  padding: const EdgeInsets.only(top: 15.0),
+                  child: element(
+                      widget.snapshot_c.data!.albums[i].name.toString() +
+                          " گروه " +
+                          widget.snapshot_c.data!.albums[i].group.toString()),
+                )
           ],
         ),
       ),
@@ -118,8 +130,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => Setting())));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => Setting())));
             }))
       ],
     );

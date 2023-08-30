@@ -528,8 +528,8 @@ class NavigationDrawer extends StatelessWidget {
             ),
             title: const Text('تنظیمات', style: TextStyle(fontSize: 18)),
             onTap: (() {
-              Navigator.of(context).pushReplacement(
-                  MaterialPageRoute(builder: ((context) => Setting())));
+              Navigator.of(context)
+                  .push(MaterialPageRoute(builder: ((context) => Setting())));
             }))
       ],
     );
