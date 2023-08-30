@@ -39,6 +39,7 @@ Future<void> main() async {
 
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
+
   /*QueryBuilder<ParseObject> q = QueryBuilder<ParseObject>(ParseObject("Class"));
   final ParseResponse a = await q.query();
   if (a.success && a.result != null) {

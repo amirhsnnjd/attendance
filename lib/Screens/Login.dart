@@ -266,8 +266,6 @@ class _LoginPageState extends State<LoginPage> {
                                                                   TeacherList>(
                                                                 builder: (context,
                                                                     snapshot) {
-                                                                  print(
-                                                                      "enter");
                                                                   if (snapshot
                                                                       .hasData) {
                                                                     int check =
@@ -311,7 +309,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                               builder: (context, snapshot2) {
                                                                                 if (snapshot2.hasData) {
                                                                                   login?.setInt("key", k);
-                                                                                  print(login?.getInt("key"));
+
                                                                                   return Home(k, snapshot, snapshot1, snapshot2);
                                                                                 } else
                                                                                   return const SpinKitRotatingCircle(

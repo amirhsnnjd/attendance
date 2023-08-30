@@ -2,10 +2,12 @@ import 'package:attendance/Album/class_parse.dart';
 import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Album/teacher_parse.dart';
 import 'package:attendance/Material/ClassElement.dart';
+import 'package:attendance/Screens/AddClass.dart';
 import 'package:attendance/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -48,7 +50,7 @@ class _HomeState extends State<Home> {
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
-    print("home");
+
     SharedPreferences? login;
     initial(login, widget.k);
 
@@ -57,12 +59,68 @@ class _HomeState extends State<Home> {
       debugShowCheckedModeBanner: false,
       home: Scaffold(
         floatingActionButton: FloatingActionButton(
-          onPressed: () {},
+          onPressed: () {
+            Navigator.of(context).pushReplacement(MaterialPageRoute(
+                builder: ((context) => AddClass(widget.k, widget.snapshot_t,
+                    widget.snapshot_c, widget.snapshot_s))));
+          },
           tooltip: 'Increment',
           child: const Icon(Icons.add),
         ),
         drawer: NavigationDrawer(),
         appBar: AppBar(
+          actions: [
+            Padding(
+              padding: const EdgeInsets.all(8.0),
+              child: InkWell(
+                child: Icon(Icons.refresh),
+                onTap: () {
+                  Navigator.of(context).push(MaterialPageRoute(
+                      builder: ((context) => FutureBuilder<TeacherList>(
+                            builder: (context, snapshot) {
+                              if (snapshot.hasData) {
+                                return FutureBuilder<ClassList>(
+                                  future: FetchAlbum_c(),
+                                  builder: (context, snapshot_c) {
+                                    if (snapshot_c.hasData) {
+                                      return FutureBuilder<StudntList>(
+                                        future: FetchAlbum_s(),
+                                        builder: (context, snapshot_s) {
+                                          if (snapshot_s.hasData) {
+                                            return Home(widget.k, snapshot,
+                                                snapshot_c, snapshot_s);
+                                          } else if (snapshot_s.hasError) {
+                                            return Text('${snapshot_s.error}');
+                                          }
+                                          return const SpinKitRotatingCircle(
+                                            color: Colors.purple,
+                                            size: 50.0,
+                                          );
+                                        },
+                                      );
+                                    } else if (snapshot_c.hasError) {
+                                      return Text('${snapshot_c.error}');
+                                    }
+                                    return const SpinKitRotatingCircle(
+                                      color: Colors.purple,
+                                      size: 50.0,
+                                    );
+                                  },
+                                );
+                              } else if (snapshot.hasError) {
+                                return Text('${snapshot.error}');
+                              }
+                              return const SpinKitRotatingCircle(
+                                color: Colors.purple,
+                                size: 50.0,
+                              );
+                            },
+                            future: FetchAlbum(),
+                          ))));
+                },
+              ),
+            )
+          ],
           title: Align(alignment: Alignment.center, child: Text("صفحه اصلی")),
         ),
         body: ListView(
@@ -71,11 +129,19 @@ class _HomeState extends State<Home> {
               if (widget.snapshot_c.data!.albums[i].teacher ==
                   widget.snapshot_t.data!.albums[widget.k].email)
                 Padding(
-                  padding: const EdgeInsets.only(top: 15.0),
-                  child: element(
-                      widget.snapshot_c.data!.albums[i].name.toString() +
+                  padding: const EdgeInsets.only(top: 10.0),
+                  child: Column(
+                    children: [
+                      element(widget.snapshot_c.data!.albums[i].name
+                              .toString() +
                           " گروه " +
                           widget.snapshot_c.data!.albums[i].group.toString()),
+                      const Divider(
+                        color: Colors.black,
+                        thickness: 1.3,
+                      )
+                    ],
+                  ),
                 )
           ],
         ),

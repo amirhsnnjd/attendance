@@ -5,6 +5,7 @@ import 'package:flutter/src/widgets/framework.dart';
 
 class element extends StatefulWidget {
   String text;
+
   element(this.text);
 
   @override
@@ -17,6 +18,7 @@ class _elementState extends State<element> {
     double _width = MediaQuery.of(context).size.width;
     double _height = MediaQuery.of(context).size.height;
     return InkWell(
+      onTap: () {},
       child: Column(
         children: [
           Container(
@@ -30,19 +32,23 @@ class _elementState extends State<element> {
                     padding: const EdgeInsets.all(8.0),
                     child: Align(
                         alignment: Alignment.topRight,
-                        child: Text(
-                          widget.text,
-                          style: TextStyle(fontSize: 20),
+                        child: Row(
+                          children: [
+                            Text(
+                              widget.text,
+                              style: TextStyle(fontSize: 20),
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(8.0),
+                              child: Icon(Icons.group),
+                            ),
+                          ],
                         )),
                   )
                 ],
               ),
             ),
           ),
-          const Divider(
-            color: Colors.black,
-            thickness: 1.3,
-          )
         ],
       ),
     );
