@@ -40,7 +40,8 @@ Future<void> main() async {
   await Parse().initialize(keyApplicationId, keyParseServerUrl,
       clientKey: keyCientKey, autoSendSessionId: true);
 
-  /*QueryBuilder<ParseObject> q = QueryBuilder<ParseObject>(ParseObject("Class"));
+  /* QueryBuilder<ParseObject> q =
+      QueryBuilder<ParseObject>(ParseObject("FirstClass"));
   final ParseResponse a = await q.query();
   if (a.success && a.result != null) {
     print(a.results);
@@ -86,52 +87,21 @@ class _MyAppState extends State<MyApp> {
     SharedPreferences? login;
     initial(login);
     int? q = login?.getInt("key");
-
-    //return LoginPage(false);
-    if (q == -1 || q == null) {
-      return LoginPage(false);
-    } else {
-      return FutureBuilder<TeacherList>(
-        builder: (context, snapshot) {
-          if (snapshot.hasData) {
-            return FutureBuilder<ClassList>(
-              future: FetchAlbum_c(),
-              builder: (context, snapshot_c) {
-                if (snapshot_c.hasData) {
-                  return FutureBuilder<StudntList>(
-                    future: FetchAlbum_s(),
-                    builder: (context, snapshot_s) {
-                      if (snapshot_s.hasData) {
-                        return Home(q, snapshot, snapshot_c, snapshot_s);
-                      } else if (snapshot_s.hasError) {
-                        return Text('${snapshot_s.error}');
-                      }
-                      return const SpinKitRotatingCircle(
-                        color: Colors.purple,
-                        size: 50.0,
-                      );
-                    },
-                  );
-                } else if (snapshot_c.hasError) {
-                  return Text('${snapshot_c.error}');
-                }
-                return const SpinKitRotatingCircle(
-                  color: Colors.purple,
-                  size: 50.0,
-                );
-              },
-            );
-          } else if (snapshot.hasError) {
-            return Text('${snapshot.error}');
-          }
+    return LoginPage(false);
+    return FutureBuilder<StudntList>(
+      future: FetchAlbum_s(),
+      builder: (context, snapshot2) {
+        if (snapshot2.hasData) {
+          print(snapshot2.data!.albums[0].name);
+        } else
           return const SpinKitRotatingCircle(
             color: Colors.purple,
             size: 50.0,
           );
-        },
-        future: FetchAlbum(),
-      );
-    }
+      },
+    );
+
+    //return LoginPage(false);
 
     /* return FutureBuilder<TeacherList>(
       builder: (context, snapshot) {

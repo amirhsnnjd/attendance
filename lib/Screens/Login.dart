@@ -308,6 +308,7 @@ class _LoginPageState extends State<LoginPage> {
                                                                               builder: (context, snapshot2) {
                                                                                 if (snapshot2.hasData) {
                                                                                   login?.setInt("key", k);
+                                                                                  print(snapshot2.data!.albums[0].createdAt.toString());
 
                                                                                   return Home(k, snapshot, snapshot1, snapshot2);
                                                                                 } else

@@ -112,7 +112,11 @@ class StudentElement extends StatelessWidget {
                     fontSize: 15,
                   )),
             ),
-          )
+          ),
+          const Divider(
+            color: Colors.black,
+            thickness: 1.3,
+          ),
         ],
       ),
     );

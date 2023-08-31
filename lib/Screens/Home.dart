@@ -3,6 +3,7 @@ import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Album/teacher_parse.dart';
 import 'package:attendance/Material/ClassElement.dart';
 import 'package:attendance/Screens/AddClass.dart';
+import 'package:attendance/Screens/Manage.dart';
 import 'package:attendance/main.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
@@ -132,10 +133,19 @@ class _HomeState extends State<Home> {
                   padding: const EdgeInsets.only(top: 10.0),
                   child: Column(
                     children: [
-                      element(widget.snapshot_c.data!.albums[i].name
-                              .toString() +
-                          " گروه " +
-                          widget.snapshot_c.data!.albums[i].group.toString()),
+                      element(
+                          widget.snapshot_c.data!.albums[i].name.toString() +
+                              " گروه " +
+                              widget.snapshot_c.data!.albums[i].group
+                                  .toString(), () {
+                        Navigator.of(context).push(MaterialPageRoute(
+                            builder: ((context) => Manage(
+                                i,
+                                widget.snapshot_t,
+                                widget.snapshot_c,
+                                widget.snapshot_s,
+                                widget.k))));
+                      }),
                       const Divider(
                         color: Colors.black,
                         thickness: 1.3,
