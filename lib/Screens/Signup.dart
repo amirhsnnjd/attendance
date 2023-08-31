@@ -1,4 +1,3 @@
-import 'package:attendance/Album/Album.dart';
 import 'package:attendance/Screens/Login.dart';
 import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/cupertino.dart';

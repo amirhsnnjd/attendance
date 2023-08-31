@@ -1,16 +1,20 @@
+import 'dart:async';
 import 'dart:core';
 
 import 'package:attendance/Material/Input.dart';
+import 'package:attendance/Screens/AddStudent.dart';
 import 'package:attendance/Screens/Setting.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/src/foundation/key.dart';
 import 'package:flutter/src/widgets/framework.dart';
+import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:provider/provider.dart';
 import 'package:parse_server_sdk_flutter/parse_server_sdk.dart';
 import '../Album/class_parse.dart';
 import '../Album/student_parse.dart';
 import '../Album/teacher_parse.dart';
 import '../Provider/light.dart';
+import 'Home.dart';
 import 'Login.dart';
 
 void c(String name, int group, String teacher) async {
@@ -54,12 +58,12 @@ class _AddClassState extends State<AddClass> {
   int StudentNum = 0;
   List<String> StudentNameList = [];
   List<String> StudentIdList = [];
+
   final _formkey3 = GlobalKey<FormState>();
   @override
   Widget build(BuildContext context) {
     bool light = Provider.of<LightChanger>(context).light;
     double _width = MediaQuery.of(context).size.width;
-
     return MaterialApp(
       theme: light ? _lightTheme : _darkTheme,
       debugShowCheckedModeBanner: false,
@@ -149,7 +153,14 @@ class _AddClassState extends State<AddClass> {
                                       widget.snapshot_t.data!.albums[widget.k]
                                           .email
                                           .toString());
-                                  print("done");
+                                  Navigator.of(context).push(MaterialPageRoute(
+                                      builder: ((context) => AddStudent(
+                                          widget.k,
+                                          classname,
+                                          classgroup,
+                                          StudentNum))));
+                                  /* 
+                               */
                                 }
                               },
                             ),

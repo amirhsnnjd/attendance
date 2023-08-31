@@ -131,7 +131,6 @@ class _MyAppState extends State<MyApp> {
         },
         future: FetchAlbum(),
       );
-      ;
     }
 
     /* return FutureBuilder<TeacherList>(

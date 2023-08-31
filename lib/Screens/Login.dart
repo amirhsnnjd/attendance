@@ -1,6 +1,5 @@
 import 'dart:convert';
 
-import 'package:attendance/Album/Album.dart';
 import 'package:attendance/Album/class_parse.dart';
 import 'package:attendance/Album/student_parse.dart';
 import 'package:attendance/Material/Input.dart';
