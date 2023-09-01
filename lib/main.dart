@@ -88,18 +88,6 @@ class _MyAppState extends State<MyApp> {
     initial(login);
     int? q = login?.getInt("key");
     return LoginPage(false);
-    return FutureBuilder<StudntList>(
-      future: FetchAlbum_s(),
-      builder: (context, snapshot2) {
-        if (snapshot2.hasData) {
-          print(snapshot2.data!.albums[0].name);
-        } else
-          return const SpinKitRotatingCircle(
-            color: Colors.purple,
-            size: 50.0,
-          );
-      },
-    );
 
     //return LoginPage(false);
 
