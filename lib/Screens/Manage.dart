@@ -1,3 +1,4 @@
+import 'package:attendance/Screens/Attendance.dart';
 import 'package:attendance/Screens/absentee.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -127,7 +128,20 @@ class _ManageState extends State<Manage> {
                                               height: 50,
                                               width: _width * 0.40,
                                               child: ElevatedButton(
-                                                onPressed: () {},
+                                                onPressed: () {
+                                                  Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                          builder: ((context) =>
+                                                              Attendance(
+                                                                  widget.i,
+                                                                  widget
+                                                                      .snapshot_c,
+                                                                  widget
+                                                                      .snapshot_s,
+                                                                  widget.k,
+                                                                  widget
+                                                                      .snapshot_t))));
+                                                },
                                                 child: Text(
                                                   "انجام حضور و غیاب",
                                                   style: TextStyle(
